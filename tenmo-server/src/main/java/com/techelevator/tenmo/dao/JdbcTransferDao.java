@@ -11,10 +11,31 @@ public class JdbcTransferDao implements TransferDao{
 
     private JdbcTemplate jdbcTemplate;
 
+    //Creates a new transfer
+    @Override
+    public Transfer startTransfer(Transfer transfer) {
+        String sql = "insert into transfer (transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, transfer.getTransferId(), transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
+
+        return transfer;
+    }
+
+    //Updates existing transfer
+    @Override
+    public Transfer updateTransfer(Transfer transfer) {
+        String sql = "UPDATE transfer " +
+                "SET transfer_status_id = ? " +
+                "WHERE transfer_id = ?";
+
+        jdbcTemplate.update(sql, transfer.getTransferStatusId(), transfer.getTransferId());
+        return transfer;
+    }
+
+    //Lists all transfers
     @Override
     public List<Transfer> listAllTransfers() {
         List<Transfer> transferList = new ArrayList<>();
-        String sql = "select transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount\n" +
+        String sql = "select transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount " +
                 "from transfer;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()) {
@@ -24,18 +45,33 @@ public class JdbcTransferDao implements TransferDao{
         return transferList;
     }
 
-    @Override
-    public Transfer sendMoney(Transfer transfer) {
-        String sql = "INSERT INTO transfer (transfer_id, transfer_type_id, transfer_status_id, account_to, amount) VALUES (?, ?, ?, ?, ?, ?)\n";
-
-        jdbcTemplate.update(sql, transfer.getTransferId(), transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountTo(), transfer.getAmount(), transfer);
-
-        return transfer;
-    }
-
+    //Gets a Transfer by ID and gives additional information
     @Override
     public Transfer getTransferByTransferId(int transferId) {
-        return null;
+        Transfer transfer = null;
+        String sql = "select transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount " +
+                "from transfer where transfer_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId);
+        if(results.next()) {
+            transfer = mapRowToTransfer(results);
+        }
+        return transfer;
+    }
+    //Lists all pending transfers
+    @Override
+    public List<Transfer> listPendingTransfers(int userId) {
+        List<Transfer> pendingList = new ArrayList<>();
+        String sql = "SELECT transfer_id, transfer_type_id, transfer.transfer_status_id, account_from, account_to, amount " +
+                "FROM transfer " +
+                "JOIN account ON account.account_id = transfer.account_from " +
+                "JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id " +
+                "WHERE transfer_status_desc = 'Pending'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while(results.next()) {
+            Transfer transfer = mapRowToTransfer(results);
+            pendingList.add(transfer);
+        }
+        return pendingList;
     }
 
     private Transfer mapRowToTransfer(SqlRowSet rs) {
