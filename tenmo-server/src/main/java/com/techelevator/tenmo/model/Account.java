@@ -6,7 +6,7 @@ public class Account {
 
     private int accountId;
     private int userId;
-    private BigDecimal balance = new BigDecimal("1000");
+    private Balance balance;
 
     public Account(int accountId, int userId, Balance balance) {
         this.accountId = accountId;
@@ -30,11 +30,11 @@ public class Account {
         this.userId = userId;
     }
 
-    public BigDecimal getBalance() {
+    public Balance getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(Balance balance) {
         this.balance = balance;
     }
 }
