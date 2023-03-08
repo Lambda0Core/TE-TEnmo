@@ -14,7 +14,7 @@ public class JdbcAccountDao implements AccountDao{
 
     @Override
     public Balance getBalance(String user) {
-        String sql = "SELECT balance FROM account JOIN users ON account.user_id = user.user_id WHERE username = ?";
+        String sql = "SELECT balance FROM account JOIN tenmo_user ON account.user_id = tenmo_user.user_id WHERE username = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, user);
         Balance balance = new Balance();
 
