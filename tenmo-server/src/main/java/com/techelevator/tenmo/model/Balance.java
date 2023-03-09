@@ -9,10 +9,12 @@ public class Balance {
     private BigDecimal balance;
 
     public BigDecimal getBalance() {
+
         return balance;
     }
 
     public void setBalance(BigDecimal balance) {
+
         this.balance = balance;
     }
 
@@ -26,6 +28,7 @@ public class Balance {
     }
 
     public void receiveMoney(BigDecimal amount) {
+
         this.balance = new BigDecimal(String.valueOf(balance)).add(amount);
     }
 }
