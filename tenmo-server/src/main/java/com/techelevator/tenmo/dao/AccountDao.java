@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 @Component
 public interface AccountDao {
 
-   Balance getBalance(int accountId);
-
-   Account getAccount();
-
+    BigDecimal getBalance(int userId);
+    BigDecimal addToBalance(BigDecimal amountToAdd, int id);
+    BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id);
+    Account getAccount();
     Account getAccountByUserId(int userId);
     Account getAccountByAccountId(int accountId);
     void updateAccount(Account accountToUpdate);
