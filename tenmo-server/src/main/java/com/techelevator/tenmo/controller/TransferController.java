@@ -36,6 +36,7 @@ public class TransferController {
     }
     @RequestMapping(path = "", method = RequestMethod.GET)
     public List<Transfer> listAllTransfers(){
+
         return transferDao.listAllTransfers();
     }
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
