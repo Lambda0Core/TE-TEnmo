@@ -17,6 +17,7 @@ public class JdbcAccountDao implements AccountDao {
     }
     private JdbcTemplate jdbcTemplate;
 
+
     @Override
     public BigDecimal getBalance(int userId) {
         BigDecimal balance = null;

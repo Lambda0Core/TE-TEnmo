@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import javax.xml.crypto.dsig.TransformService;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
@@ -40,6 +41,14 @@ public class TransferController {
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public Transfer updateTransfer(@Valid @RequestBody Transfer transfer, @PathVariable int id) {
         return transferDao.updateTransfer(transfer, id);
+    }
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public Transfer newBalance(@RequestBody Transfer newTransfer) {
+        transferDao.deductFrom(newTransfer.getAccountFrom(), newTransfer.getAmount());
+        transferDao.addMoneyTo(newTransfer.getAccountTo(), newTransfer.getAmount());
+        transferDao.addToTransferTable(newTransfer);
+
+        return newTransfer;
     }
 
 

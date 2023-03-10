@@ -9,9 +9,9 @@ public class Transfer {
     private int transferStatusId;
     private int accountFrom;
     private int accountTo;
-
     private BigDecimal amount = new BigDecimal("0");
-
+    private String otherUser;
+    private boolean wasSentToUs;
 //    public Transfer(int transferId, int transferTypeId, int transferStatusId, int accountFrom, int accountInt, BigDecimal amount) {
 //        this.transferId = transferId;
 //        this.transferTypeId = transferTypeId;
@@ -23,6 +23,22 @@ public class Transfer {
 
     public int getTransferId() {
         return transferId;
+    }
+
+    public String getOtherUser() {
+        return otherUser;
+    }
+
+    public void setOtherUser(String otherUser) {
+        this.otherUser = otherUser;
+    }
+
+    public boolean isWasSentToUs() {
+        return wasSentToUs;
+    }
+
+    public void setWasSentToUs(boolean wasSentToUs) {
+        this.wasSentToUs = wasSentToUs;
     }
 
     public void setTransferId(int transferId) {
