@@ -8,7 +8,7 @@ import java.util.List;
 public interface TransferDao {
 
     List<Transfer> listAllTransfers();
-    Transfer startTransfer(Transfer transfer);
+    Transfer createTransfer(Transfer transfer);
     Transfer updateTransfer(Transfer transfer);
     List<Transfer> listPendingTransfers(int userId);
     Transfer getTransferByTransferId(int transferId); //transfer details
