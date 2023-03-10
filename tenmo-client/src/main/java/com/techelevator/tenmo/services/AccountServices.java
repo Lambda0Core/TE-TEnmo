@@ -1,36 +1,19 @@
 package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.Account;
-import com.techelevator.util.BasicLogger;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.client.RestClientResponseException;
-import org.springframework.web.client.RestTemplate;
+
+import java.math.BigDecimal;
 
 
-public class AccountServices {
-    private static final String API_BASE_URL = "http://localhost:8080/";
-    private final RestTemplate restTemplate = new RestTemplate();
+public interface AccountServices {
 
-    public void getCurrentBalance() {
-
-    }
-
-    private Account getCurrentBalance(Account account) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Account> entity = new HttpEntity<>(account, headers);
-        Account returnedBalance = null;
-        try {
-            returnedBalance = restTemplate.postForObject(API_BASE_URL, entity, Account.class);
-        } catch (RestClientResponseException ex) {
-
-            BasicLogger.log(ex.getRawStatusCode() + " : " + ex.getStatusText());
-        }
-        return returnedBalance;
-
-    }
+    BigDecimal getBalance(int userId);
+    BigDecimal addToBalance(BigDecimal amountToAdd, int id);
+    BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id);
+    Account getAccount();
+    Account getAccountByUserId(int userId);
+    Account getAccountByAccountId(int accountId);
+    void updateAccount(Account accountToUpdate);
 
 }
+

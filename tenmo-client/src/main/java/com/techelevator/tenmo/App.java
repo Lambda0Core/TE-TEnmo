@@ -2,6 +2,7 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountServices;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+
+import java.security.Principal;
 
 public class App {
 
@@ -93,8 +96,8 @@ public class App {
     }
 
     private void viewCurrentBalance() {
-        Account account = AccountServices.getCurrentBalance(currentUser);
-        System.out.println("Your current account balance is:  $" + Account.getBalance());
+        Balance balance = accountService.getBalance(currentUser);
+        System.out.println("Your current account balance is:  $" + balance.getBalance());
 
     }
 
