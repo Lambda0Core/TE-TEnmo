@@ -39,11 +39,22 @@ public class TransferService {
         }
         return userBalance;
     }
+    public Transfer getTransfer(String userToken) {
+        Transfer transfer = null;
+        try {
+            ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "transfer", HttpMethod.GET, makeAuthEntity(userToken), Transfer.class);
+            transfer = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfer;
+    }
+
 
     public List<Transfer> listAllTransfers(String userToken) {
         List<Transfer> transfers = new ArrayList<>();
         try {
-            ResponseEntity<Transfer[]> response = restTemplate.exchange(API_BASE_URL + "transfer/list", HttpMethod.GET, makeAuthEntity(userToken), Transfer[].class);
+            ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "transfer/list", HttpMethod.GET, makeAuthEntity(userToken), Transfer.class);
             transfers = Arrays.asList(response.getBody());
 
         } catch (RestClientResponseException | ResourceAccessException e) {

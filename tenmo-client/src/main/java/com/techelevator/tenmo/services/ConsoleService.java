@@ -80,7 +80,7 @@ public class ConsoleService {
             }
         }
     }
-    public void printTransfers(Transfer[] transfers) {
+    public void printTransfers(List<Transfer> transfers) {
         System.out.println("-------------------------------");
         System.out.println("Transfers");
         System.out.println();

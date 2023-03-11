@@ -93,12 +93,7 @@ public class App {
     }
 
     private void viewTransferHistory() {
-        Transfer[] transfers = transferService.listAllTransfers(currentUser.getToken());
-        if (transfers != null){
-            consoleService.printTransfers(transfers);
-        } else {
-            consoleService.printErrorMessage();
-        }
+        System.out.println(transferService.getTransfer(currentUser.getToken()));
     }
     private void viewPendingRequests() {
         // TODO Auto-generated method stub
