@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
@@ -90,7 +91,14 @@ public class App {
 
     private void viewTransferHistory() {
         // TODO Auto-generated method stub
-        System.out.println(transferService.listAllTransfers(currentUser.getToken()));
+        System.out.println("-------------------------------");
+        System.out.println("Transfers");
+        System.out.println();
+        System.out.println("ID     From/To          Amount");
+        System.out.println("-------------------------------");
+        for(Transfer transfer : transferService.listAllTransfers(currentUser.getToken())){
+            System.out.println(transfer);
+        }
     }
 
     private void viewPendingRequests() {

@@ -13,6 +13,8 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TransferService {
@@ -38,11 +40,11 @@ public class TransferService {
         return userBalance;
     }
 
-    public Transfer[] listAllTransfers(String userToken) {
-        Transfer[] transfers = null;
+    public List<Transfer> listAllTransfers(String userToken) {
+        List<Transfer> transfers = new ArrayList<>();
         try {
-            ResponseEntity<Transfer[]> response = restTemplate.exchange(API_BASE_URL + "transfer", HttpMethod.GET, makeAuthEntity(userToken), Transfer[].class);
-            transfers = response.getBody();
+            ResponseEntity<Transfer[]> response = restTemplate.exchange(API_BASE_URL + "transfer/", HttpMethod.GET, makeAuthEntity(userToken), Transfer[].class);
+            transfers = Arrays.asList(response.getBody());
 
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
