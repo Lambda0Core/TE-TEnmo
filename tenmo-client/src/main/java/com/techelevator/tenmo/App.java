@@ -1,29 +1,18 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
-import com.techelevator.tenmo.services.AccountServices;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
-import com.techelevator.util.BasicLogger;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.client.RestClientResponseException;
-import org.springframework.web.client.RestTemplate;
-
-import java.security.Principal;
+import com.techelevator.tenmo.services.TransferService;
 
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
-
+    private AuthenticatedUser currentUser;
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    private final RestTemplate restTemplate = new RestTemplate();
-    private AuthenticatedUser currentUser;
+    private final TransferService transferService = new TransferService(API_BASE_URL,currentUser);
 
     public static void main(String[] args) {
         App app = new App();
@@ -96,30 +85,28 @@ public class App {
     }
 
     private void viewCurrentBalance() {
-        Balance balance = accountService.getBalance(currentUser);
-        System.out.println("Your current account balance is:  $" + balance.getBalance());
+        // TODO Auto-generated method stub
+        System.out.println(transferService.getBalance(currentUser.getToken()));
+    }
+
+    private void viewTransferHistory() {
+        // TODO Auto-generated method stub
 
     }
 
+    private void viewPendingRequests() {
+        // TODO Auto-generated method stub
 
-    private void viewTransferHistory() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
-		
-	}
+    private void sendBucks() {
+        // TODO Auto-generated method stub
 
-	private void sendBucks() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	private void requestBucks() {
-		// TODO Auto-generated method stub
-		
-	}
+    private void requestBucks() {
+        // TODO Auto-generated method stub
+
+    }
 
 }
