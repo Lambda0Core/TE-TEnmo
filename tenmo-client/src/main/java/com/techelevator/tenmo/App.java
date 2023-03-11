@@ -85,13 +85,12 @@ public class App {
     }
 
     private void viewCurrentBalance() {
-        // TODO Auto-generated method stub
         System.out.println(transferService.getBalance(currentUser.getToken()));
     }
 
     private void viewTransferHistory() {
         // TODO Auto-generated method stub
-
+        System.out.println(transferService.listAllTransfers(currentUser.getToken()));
     }
 
     private void viewPendingRequests() {
