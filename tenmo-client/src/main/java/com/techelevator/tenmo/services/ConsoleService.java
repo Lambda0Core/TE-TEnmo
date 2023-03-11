@@ -1,9 +1,11 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleService {
@@ -76,6 +78,16 @@ public class ConsoleService {
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a decimal number.");
             }
+        }
+    }
+    public void printTransfers(Transfer[] transfers) {
+        System.out.println("-------------------------------");
+        System.out.println("Transfers");
+        System.out.println();
+        System.out.println("ID     From/To          Amount");
+        System.out.println("-------------------------------");
+        for (Transfer transfer : transfers) {
+            System.out.println(transfer.getUserId() + ": " + transfer.getAccountFrom() +": " + transfer.getAccountTo() + ": " + transfer.getAmount());
         }
     }
 

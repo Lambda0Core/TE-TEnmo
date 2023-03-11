@@ -34,10 +34,10 @@ public class TransferController {
         Transfer balance = transferDao.getTransferByTransferId(id);
         return balance;
     }
-    @RequestMapping(path = "", method = RequestMethod.GET)
-    public List<Transfer> listAllTransfers(){
+    @RequestMapping(path = "list/{id}", method = RequestMethod.GET)
+    public List<Transfer> listAllTransfers(@PathVariable int id){
 
-        return transferDao.listAllTransfers();
+        return transferDao.listAllTransfers(id);
     }
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public Transfer updateTransfer(@Valid @RequestBody Transfer transfer, @PathVariable int id) {

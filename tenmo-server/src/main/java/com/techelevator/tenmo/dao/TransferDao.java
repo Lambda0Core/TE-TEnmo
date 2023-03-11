@@ -12,7 +12,7 @@ public interface TransferDao {
     void addMoneyTo(int accountTo, BigDecimal amount);
     Transfer addToTransferTable(Transfer newTransfer);
     Transfer updateTransfer(Transfer transfer, int id);
-    List<Transfer> listAllTransfers();
+    List<Transfer> listAllTransfers(int id);
     Transfer createTransfer(Transfer transfer);
     List<Transfer> listPendingTransfers(int userId);
     Transfer getTransferByTransferId(int transferId);

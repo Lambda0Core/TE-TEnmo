@@ -7,6 +7,9 @@ import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
@@ -44,7 +47,7 @@ public class App {
     }
 
     private void handleRegister() {
-        System.out.println("Please register a new user account");
+        System.out.println("Please register a new user account in all lower case.");
         UserCredentials credentials = consoleService.promptForCredentials();
         if (authenticationService.register(credentials)) {
             System.out.println("Registration successful. You can now login.");
@@ -90,17 +93,13 @@ public class App {
     }
 
     private void viewTransferHistory() {
-        // TODO Auto-generated method stub
-        System.out.println("-------------------------------");
-        System.out.println("Transfers");
-        System.out.println();
-        System.out.println("ID     From/To          Amount");
-        System.out.println("-------------------------------");
-        for(Transfer transfer : transferService.listAllTransfers(currentUser.getToken())){
-            System.out.println(transfer);
+        Transfer[] transfers = transferService.listAllTransfers(currentUser.getToken());
+        if (transfers != null){
+            consoleService.printTransfers(transfers);
+        } else {
+            consoleService.printErrorMessage();
         }
     }
-
     private void viewPendingRequests() {
         // TODO Auto-generated method stub
 
@@ -115,5 +114,7 @@ public class App {
         // TODO Auto-generated method stub
 
     }
+
+
 
 }
