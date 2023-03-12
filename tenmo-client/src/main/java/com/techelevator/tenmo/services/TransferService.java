@@ -4,6 +4,7 @@ package com.techelevator.tenmo.services;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -51,6 +52,20 @@ public class TransferService {
         }
         return Arrays.asList(transfers);
     }
+
+    public List<User> listOfUsers(String userToken) {
+        User[] usersList = null;
+        try {
+            ResponseEntity<User[]> response = restTemplate.exchange(API_BASE_URL + "account/listofusers", HttpMethod.GET, makeAuthEntity(userToken), User[].class);
+            usersList = response.getBody();
+
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return Arrays.asList(usersList);
+
+    }
+
     public Transfer getTransfer(String userToken) {
         Transfer transfer = null;
         try {

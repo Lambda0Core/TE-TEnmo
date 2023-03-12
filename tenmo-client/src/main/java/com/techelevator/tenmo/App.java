@@ -114,20 +114,23 @@ public class App {
 
     private void sendBucks() {
 
-        User[] userList = transferService.listUsers();
-        for (User user : userList) {
-            System.out.println(user);
-        }
+        List<User> usersList = transferService.listOfUsers(currentUser.getToken());
+        consoleService.printUsers(usersList);
 
-        int selection = consoleService.promptForInt("Enter transfer ID to view details (0 to cancel): ");
-        if (selection == 0) {
-            mainMenu();
-        }
-        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter a decimal amount to send: ");
-        Transfer transfer = new Transfer();
-        transfer.setAccountFrom(currentUser.getUser().getId());
-        transfer.setAccountTo();
-        transfer.setAmount(transferAmount);
+//        User[] userList = transferService.listUsers();
+//        for (User user : userList) {
+//            System.out.println(user);
+//        }
+//
+//        int selection = consoleService.promptForInt("Enter transfer ID to view details (0 to cancel): ");
+//        if (selection == 0) {
+//            mainMenu();
+//        }
+//        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter a decimal amount to send: ");
+//        Transfer transfer = new Transfer();
+//        transfer.setAccountFrom(currentUser.getUser().getId());
+//        transfer.setAccountTo();
+//        transfer.setAmount(transferAmount);
     }
 
     private void requestBucks() {

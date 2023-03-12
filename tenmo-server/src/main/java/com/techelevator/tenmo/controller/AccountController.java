@@ -49,6 +49,13 @@ public class AccountController {
         }
         return accountDao.update(account, id);
     }
+    @RequestMapping(path = "/account/listofusers", method = RequestMethod.GET)
+    public List<Account> getListOfUsers(Principal principal) {
+        String userName = principal.getName();
+        int id = userDao.findIdByUsername(userName);
+        List<Account> userList = accountDao.getListOfUsers();
+        return accountDao.getListOfUsers();
+    }
 
 
 //@RequestMapping(path = "balance/{id}", method = RequestMethod.PUT)

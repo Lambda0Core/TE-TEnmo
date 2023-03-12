@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -18,6 +19,18 @@ public class JdbcAccountDao implements AccountDao {
         this.jdbcTemplate = jdbcTemplate;
     }
     private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public List<Account> getListOfUsers() {
+        List<Account> userAccounts = new ArrayList<>();
+        String sql = "SELECT account_id, user_id, balance\n" +
+                "FROM account;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while(results.next()) {
+            userAccounts.add(mapResultsToAccount(results));
+        }
+        return userAccounts;
+    }
 
 
     @Override

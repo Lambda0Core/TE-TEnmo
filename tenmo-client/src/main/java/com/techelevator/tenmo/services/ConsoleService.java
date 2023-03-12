@@ -2,6 +2,7 @@ package com.techelevator.tenmo.services;
 
 
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
@@ -90,6 +91,12 @@ public class ConsoleService {
             System.out.println(transfer.getTransferId() + ":  " + transfer.getAccountFrom() +":  " + transfer.getAccountTo() + ":  \t" + transfer.getAmount());
         }
     }
+
+    public void printUsers(List<User> users) {
+        System.out.println("----------List Of Users----------");
+        for (User user : users) {
+            System.out.println(user.getUsername());
+        }
 
     public void pause() {
         System.out.println("\nPress Enter to continue...");

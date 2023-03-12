@@ -5,6 +5,7 @@ import com.techelevator.tenmo.model.Balance;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Component
 public interface AccountDao {
@@ -17,5 +18,6 @@ public interface AccountDao {
     Account getAccountByUserId(int userId);
     Account getAccountByAccountId(int accountId);
     void updateAccount(Account accountToUpdate);
+    List<Account> getListOfUsers();
 
 }
