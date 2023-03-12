@@ -94,12 +94,14 @@ public class App {
     }
 
     private void viewCurrentBalance() {
+
         System.out.println(transferService.getBalance(currentUser.getToken()));
     }
 
     private void viewTransferHistory() {
       List<Transfer> transfers = transferService.listAllTransfers(currentUser.getToken());
       consoleService.printTransfers(transfers);
+
 
     }
     private void viewPendingRequests() {
