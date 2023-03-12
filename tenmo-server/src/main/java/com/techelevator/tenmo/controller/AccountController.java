@@ -49,7 +49,7 @@ public class AccountController {
         }
         return accountDao.update(account, id);
     }
-    @RequestMapping(path = "/listofusers", method = RequestMethod.GET)
+    @RequestMapping(path = "/listOfUsers", method = RequestMethod.GET)
     public List<Account> getListOfUsers(Principal principal) {
         String userName = principal.getName();
         int id = userDao.findIdByUsername(userName);
