@@ -7,8 +7,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Component
 public class JdbcAccountDao implements AccountDao {
@@ -37,6 +39,31 @@ public class JdbcAccountDao implements AccountDao {
         String sqlString = "UPDATE account SET balance = ? WHERE user_id = ?";
             jdbcTemplate.update(sqlString, newBalance, id);
         return account.getBalance();
+    }
+
+    @Override
+    public Account update(Account account, int id) {
+        List<Account> accounts = null;
+        Account result = account;
+        boolean finished = false;
+
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts.get(i).getAccountId() == id) {
+                // the auction id doesn't need to be passed with the auction object
+                // but if it is lets handle that
+                if( result.getAccountId() == 0 ) {
+                    result.setAccountId(id);
+                }
+                accounts.set(i, result);
+                finished = true;
+                break;
+            }
+        }
+        if (!finished) {
+            return null;
+        }
+
+        return result;
     }
 
     @Override

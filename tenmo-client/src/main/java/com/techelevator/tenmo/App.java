@@ -2,12 +2,16 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class App {
@@ -17,6 +21,7 @@ public class App {
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private final TransferService transferService = new TransferService(API_BASE_URL,currentUser);
+    private RestTemplate restTemplate;
 
     public static void main(String[] args) {
         App app = new App();
@@ -93,7 +98,9 @@ public class App {
     }
 
     private void viewTransferHistory() {
-        System.out.println(transferService.getTransfer(currentUser.getToken()));
+      List<Transfer> transfers = transferService.listAllTransfers(currentUser.getToken());
+      consoleService.printTransfers(transfers);
+
     }
     private void viewPendingRequests() {
         // TODO Auto-generated method stub
@@ -101,7 +108,6 @@ public class App {
     }
 
     private void sendBucks() {
-        // TODO Auto-generated method stub
 
     }
 

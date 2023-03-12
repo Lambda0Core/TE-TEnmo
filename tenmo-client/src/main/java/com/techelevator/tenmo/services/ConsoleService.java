@@ -87,7 +87,7 @@ public class ConsoleService {
         System.out.println("ID     From/To          Amount");
         System.out.println("-------------------------------");
         for (Transfer transfer : transfers) {
-            System.out.println(transfer.getUserId() + ": " + transfer.getAccountFrom() +": " + transfer.getAccountTo() + ": " + transfer.getAmount());
+            System.out.println(transfer.getTransferId() + ":  " + transfer.getAccountFrom() +":  " + transfer.getAccountTo() + ":  \t" + transfer.getAmount());
         }
     }
 

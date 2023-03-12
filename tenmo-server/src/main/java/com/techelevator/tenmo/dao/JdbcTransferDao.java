@@ -94,7 +94,7 @@ public class JdbcTransferDao implements TransferDao{
             transferFromAccount.setAccountId(results.getInt("account_id"));
             transferFromAccount.setUserId(results.getInt("user_id"));
             transferFromAccount.setBalance(results.getBigDecimal("balance"));
-        }//no helper method but is basically our mapToRowSet
+        }
         String sqlUpdateUserIdFrom = "UPDATE accounts SET balance = ? WHERE user_id = ?";
         jdbcTemplate.update(sqlUpdateUserIdFrom, transferFromAccount.getBalance().subtract(amount), userIdFrom);//updates the amount in the account it's from
 

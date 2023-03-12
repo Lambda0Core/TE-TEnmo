@@ -11,6 +11,7 @@ public interface AccountDao {
 
     BigDecimal getBalance(int userId);
     BigDecimal addToBalance(BigDecimal amountToAdd, int id);
+    Account update(Account account,int id);
     BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id);
     Account getAccount();
     Account getAccountByUserId(int userId);
