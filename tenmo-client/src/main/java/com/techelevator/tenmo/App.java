@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.*;
+import com.techelevator.tenmo.services.AccountServices;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
@@ -110,24 +111,31 @@ public class App {
     }
 
     private void sendBucks() {
-
         List<Account> usersList = transferService.listOfUsers(currentUser.getToken());
         consoleService.printUsers(usersList);
 
-//        User[] userList = transferService.listUsers();
-//        for (User user : userList) {
-//            System.out.println(user);
-//        }
-//
-//        int selection = consoleService.promptForInt("Enter transfer ID to view details (0 to cancel): ");
-//        if (selection == 0) {
-//            mainMenu();
-//        }
-//        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter a decimal amount to send: ");
-//        Transfer transfer = new Transfer();
-//        transfer.setAccountFrom(currentUser.getUser().getId());
-//        transfer.setAccountTo();
-//        transfer.setAmount(transferAmount);
+        int selection = consoleService.promptForInt("Enter transfer ID to view details (0 to cancel): ");
+        if (selection == 0) {
+            mainMenu();
+        }else if (selection == currentUser.getUser().getId()){
+            System.out.println("ERROR Unable to transfer money to the same account.");
+            mainMenu();
+        }
+        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter a decimal amount to send: ");
+        Transfer transfer = new Transfer();
+        transfer.setAccountFrom(currentUser.getUser().getId());
+        transfer.setAccountTo(selection);
+        transfer.setAmount(transferAmount);
+        System.out.println(transfer.getAmount());
+        transferService.subtractFromAccountBalance(currentUser.getUser().getId(), transferAmount);
+        transferService.addToAccountBalance(selection, transferAmount);
+        transferService.createTransfer(transfer, currentUser.getToken());
+        System.out.println(transfer.getAccountTo());
+        System.out.println(transfer.getAccountFrom());
+        System.out.println("$" + transferAmount + " sent!");
+        mainMenu();
+
+
     }
 
 

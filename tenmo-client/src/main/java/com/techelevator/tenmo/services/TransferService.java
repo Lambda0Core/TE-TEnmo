@@ -6,10 +6,7 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -77,25 +74,70 @@ public class TransferService {
         return transfer;
     }
 
-    public Transfer updatedBalances(String userToken){
-        Transfer transfer = null;
-        try{
-            ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "transfer", HttpMethod.GET, makeAuthEntity(userToken), Transfer.class);
+    public Account updatedBalances(Account updatedAccount){
+        HttpEntity<Account> entity = makeAccountEntity(updatedAccount);
+        try {
+            restTemplate.put(API_BASE_URL + updatedAccount.getAccountId(), entity);
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return updatedAccount;
+    }
+
+    public User getUserByUserId(int id) {
+        User user = null;
+        try {
+            user = restTemplate.getForObject(API_BASE_URL + "account/users" + id, User.class);
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return user;
+    }
+
+    public void createTransfer(Transfer transfer, String userToken) {
+        try {
+            ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "transfer", HttpMethod.POST, makeAuthEntity(userToken), Transfer.class);
             transfer = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-        return transfer;
-
     }
 
-    public BigDecimal addToBalance(BigDecimal amountToAdd, int id) {
-        return null;
-    }
-    public BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id) {
-        return null;
+    public boolean subtractFromAccountBalance(int accId, BigDecimal amountToSubtract) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Integer> entity = new HttpEntity<>(accId, headers);
+            boolean success = false;
+            try {
+                restTemplate.put(API_BASE_URL + "account/subtract?fromAccount=" + accId + "&amountToSubtract=" + amountToSubtract, entity);
+                success = true;
+            } catch (RestClientResponseException | ResourceAccessException e) {
+                BasicLogger.log(e.getMessage());
+            }
+            return success;
+        }
+
+    public boolean addToAccountBalance(int accId, BigDecimal amountToAdd) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Integer> entity = new HttpEntity<>(accId, headers);
+        boolean success = false;
+        try {
+            restTemplate.put(API_BASE_URL + "account/add?toAccount=" + accId + "&amountToAdd=" + amountToAdd, entity);
+            success = true;
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return success;
     }
 
+    private HttpEntity<Account> makeAccountEntity(Account transfers) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String token = null;
+        headers.setBearerAuth(token);
+        return new HttpEntity<>(transfers, headers);
+    }
 
     private HttpEntity<Void> makeAuthEntity(String token) {
         HttpHeaders headers = new HttpHeaders();

@@ -20,12 +20,10 @@ public class JdbcTransferDao implements TransferDao{
 
     //Creates a new transfer
     @Override
-    public Transfer createTransfer(Transfer transfer) {
+    public void createTransfer(Transfer transfer) {
         String sql = "insert into transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-                "VALUES (?, ?, ?, ?, ?) RETURNING transfer_id;";
-        jdbcTemplate.update(sql, transfer.getTransferId(), transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
-
-        return transfer;
+                "VALUES (2, 2, ?, ?, 1000.00) RETURNING transfer_id;";
+        jdbcTemplate.queryForObject(sql, Integer.class, transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
     }
 
     //Updates existing transfer

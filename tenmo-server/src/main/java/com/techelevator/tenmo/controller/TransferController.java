@@ -45,8 +45,8 @@ public class TransferController {
     public Transfer updateTransfer(@Valid @RequestBody Transfer transfer, @PathVariable int id) {
         return transferDao.updateTransfer(transfer, id);
     }
-    @RequestMapping(path = "", method = RequestMethod.PUT)
-    public Transfer newBalance(@RequestBody Transfer newTransfer) {
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public Transfer createTransfer(@RequestBody Transfer newTransfer) {
         transferDao.createTransfer(newTransfer);
 
         return newTransfer;
