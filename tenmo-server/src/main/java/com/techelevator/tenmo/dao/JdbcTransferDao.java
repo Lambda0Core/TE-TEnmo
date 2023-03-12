@@ -84,41 +84,6 @@ public class JdbcTransferDao implements TransferDao{
         }
         return pendingList;
     }
-    @Override
-    public void deductFrom(int userIdFrom, BigDecimal amount) {  //Updates the account that the transfer is coming from (user inputting the transfer)
-        Account transferFromAccount = new Account(); //created a from account object
-        String sqlSetTransferFromAccountData = "SELECT account_id, user_id, balance FROM accounts WHERE user_id = ?";//setting the values using postGres searching by the id number
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSetTransferFromAccountData, userIdFrom);
-        while (results.next()) {
-
-            transferFromAccount.setAccountId(results.getInt("account_id"));
-            transferFromAccount.setUserId(results.getInt("user_id"));
-            transferFromAccount.setBalance(results.getBigDecimal("balance"));
-        }
-        String sqlUpdateUserIdFrom = "UPDATE accounts SET balance = ? WHERE user_id = ?";
-        jdbcTemplate.update(sqlUpdateUserIdFrom, transferFromAccount.getBalance().subtract(amount), userIdFrom);//updates the amount in the account it's from
-
-
-    }
-
-    @Override
-    public void addMoneyTo(int userIdTo, BigDecimal amount) { // set up SQL stuff to add money to the user specified in the front end
-        Account transferToAccount = new Account(); //created a from account object
-        String sqlSetTransferFromAccountData = "SELECT account_id, user_id, balance FROM accounts WHERE user_id = ?";//setting the values using postGres searching by the id number
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSetTransferFromAccountData, userIdTo);
-        while (results.next()) {
-
-            transferToAccount.setAccountId(results.getInt("account_id"));
-            transferToAccount.setUserId(results.getInt("user_id"));
-            transferToAccount.setBalance(results.getBigDecimal("balance"));
-
-            String sqlUpdateUserIdTo = "UPDATE accounts SET balance = ? WHERE user_id = ?";
-            jdbcTemplate.update(sqlUpdateUserIdTo, (transferToAccount.getBalance().add(amount)), userIdTo);
-
-        }
-
-    }
-
     public Transfer addToTransferTable(Transfer newTransfer) {
         String sqlPostToTransfer = "insert into transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount)"
                 + "values (2, 2, ?, ?, ?)";

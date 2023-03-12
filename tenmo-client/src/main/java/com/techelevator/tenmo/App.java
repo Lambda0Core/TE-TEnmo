@@ -1,9 +1,6 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
@@ -36,7 +33,6 @@ public class App {
             mainMenu();
         }
     }
-
     private void loginMenu() {
         int menuSelection = -1;
         while (menuSelection != 0 && currentUser == null) {
@@ -95,6 +91,7 @@ public class App {
         }
     }
 
+
     private void viewCurrentBalance() {
 
         System.out.println(transferService.getBalance(currentUser.getToken()));
@@ -114,7 +111,7 @@ public class App {
 
     private void sendBucks() {
 
-        List<User> usersList = transferService.listOfUsers(currentUser.getToken());
+        List<Account> usersList = transferService.listOfUsers(currentUser.getToken());
         consoleService.printUsers(usersList);
 
 //        User[] userList = transferService.listUsers();
@@ -132,6 +129,8 @@ public class App {
 //        transfer.setAccountTo();
 //        transfer.setAmount(transferAmount);
     }
+
+
 
     private void requestBucks() {
         // TODO Auto-generated method stub

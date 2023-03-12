@@ -8,8 +8,6 @@ import java.util.List;
 @Component
 public interface TransferDao {
 
-    void deductFrom(int accountFrom, BigDecimal amount);
-    void addMoneyTo(int accountTo, BigDecimal amount);
     Transfer addToTransferTable(Transfer newTransfer);
     Transfer updateTransfer(Transfer transfer, int id);
     List<Transfer> listAllTransfers(int id);

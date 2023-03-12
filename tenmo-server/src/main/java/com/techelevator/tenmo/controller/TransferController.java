@@ -23,6 +23,7 @@ public class TransferController {
 
 
     private TransferDao transferDao;
+    private AccountDao accountDao;
     private UserDao userDao;
 
     public TransferController(TransferDao transferDao, UserDao userDao) {
@@ -44,11 +45,9 @@ public class TransferController {
     public Transfer updateTransfer(@Valid @RequestBody Transfer transfer, @PathVariable int id) {
         return transferDao.updateTransfer(transfer, id);
     }
-    @RequestMapping(path = "", method = RequestMethod.POST)
+    @RequestMapping(path = "", method = RequestMethod.PUT)
     public Transfer newBalance(@RequestBody Transfer newTransfer) {
-        transferDao.deductFrom(newTransfer.getAccountFrom(), newTransfer.getAmount());
-        transferDao.addMoneyTo(newTransfer.getAccountTo(), newTransfer.getAmount());
-        transferDao.addToTransferTable(newTransfer);
+        transferDao.createTransfer(newTransfer);
 
         return newTransfer;
     }

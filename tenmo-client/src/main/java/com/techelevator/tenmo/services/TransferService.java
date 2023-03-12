@@ -53,10 +53,10 @@ public class TransferService {
         return Arrays.asList(transfers);
     }
 
-    public List<User> listOfUsers(String userToken) {
-        User[] usersList = null;
+    public List<Account> listOfUsers(String userToken) {
+        Account[] usersList = null;
         try {
-            ResponseEntity<User[]> response = restTemplate.exchange(API_BASE_URL + "account/listofusers", HttpMethod.GET, makeAuthEntity(userToken), User[].class);
+            ResponseEntity<Account[]> response = restTemplate.exchange(API_BASE_URL + "account/listOfUsers", HttpMethod.GET, makeAuthEntity(userToken), Account[].class);
             usersList = response.getBody();
 
         } catch (RestClientResponseException | ResourceAccessException e) {

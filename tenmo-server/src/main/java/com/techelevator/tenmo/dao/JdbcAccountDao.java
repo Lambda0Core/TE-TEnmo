@@ -46,14 +46,20 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public BigDecimal addToBalance(BigDecimal amountToAdd, int id) {
-        Account account = getAccountByAccountId(id);
-        BigDecimal newBalance = account.getBalance().add(amountToAdd);
-        String sqlString = "UPDATE account SET balance = ? WHERE user_id = ?";
-            jdbcTemplate.update(sqlString, newBalance, id);
-        return account.getBalance();
-    }
+    public void addToAccountBalance(int toAccount, BigDecimal amountToAdd) {
+        String sql = "UPDATE account " +
+                "SET balance = balance + ? " +
+                "WHERE user_id = ?";
+        jdbcTemplate.update(sql, amountToAdd, toAccount);
 
+    }
+    @Override
+    public void subtractFromAccountBalance(int fromAccount, BigDecimal amountToSubtract) {
+        String sql = "UPDATE account " +
+                "SET balance = balance - ? " +
+                "WHERE user_id = ?";
+        jdbcTemplate.update(sql, amountToSubtract, fromAccount);
+    }
     @Override
     public Account update(Account account, int id) {
         List<Account> accounts = null;
@@ -62,8 +68,6 @@ public class JdbcAccountDao implements AccountDao {
 
         for (int i = 0; i < accounts.size(); i++) {
             if (accounts.get(i).getAccountId() == id) {
-                // the auction id doesn't need to be passed with the auction object
-                // but if it is lets handle that
                 if( result.getAccountId() == 0 ) {
                     result.setAccountId(id);
                 }
@@ -79,14 +83,6 @@ public class JdbcAccountDao implements AccountDao {
         return result;
     }
 
-    @Override
-    public BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id) {
-        Account account = getAccountByAccountId(id);
-        BigDecimal newBalance = account.getBalance().subtract(amountToSubtract);
-        String sqlString = "UPDATE account SET balance = ? WHERE user_id = ?";
-            jdbcTemplate.update(sqlString, newBalance, id);
-        return account.getBalance();
-    }
     @Override
     public Account getAccount() {
         return null;

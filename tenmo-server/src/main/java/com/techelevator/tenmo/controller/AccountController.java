@@ -35,12 +35,12 @@ public class AccountController {
         return balance;
     }
 
-    @RequestMapping(path = "/balance", method = RequestMethod.PUT)
-    public BigDecimal addToBalance(BigDecimal amountToAdd, Principal principal) {
-        String username = principal.getName();
-        BigDecimal balance = accountDao.addToBalance(amountToAdd, userDao.findIdByUsername(username));
-        return balance;
-    }
+//    @RequestMapping(path = "/balance", method = RequestMethod.PUT)
+//    public BigDecimal addToBalance(BigDecimal amountToAdd, Principal principal) {
+//        String username = principal.getName();
+//        BigDecimal balance = accountDao.addToAccountBalance(amountToAdd, userDao.findIdByUsername(username));
+//        return balance;
+//    }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public Account updateBalance (@Valid @RequestBody Account account, @PathVariable int id) {
@@ -49,12 +49,20 @@ public class AccountController {
         }
         return accountDao.update(account, id);
     }
-    @RequestMapping(path = "/account/listofusers", method = RequestMethod.GET)
+    @RequestMapping(path = "/listofusers", method = RequestMethod.GET)
     public List<Account> getListOfUsers(Principal principal) {
         String userName = principal.getName();
         int id = userDao.findIdByUsername(userName);
         List<Account> userList = accountDao.getListOfUsers();
         return accountDao.getListOfUsers();
+    }
+    @RequestMapping(path = "/subtract", method = RequestMethod.PUT)
+    void subtractFromAccountBalance(int fromAccount, BigDecimal amountToSubtract) {
+        accountDao.subtractFromAccountBalance(fromAccount, amountToSubtract);
+    }
+    @RequestMapping(path = "/add", method = RequestMethod.PUT)
+    void addToAccountBalance(int toAccount, BigDecimal amountToAdd) {
+        accountDao.addToAccountBalance(toAccount, amountToAdd);
     }
 
 

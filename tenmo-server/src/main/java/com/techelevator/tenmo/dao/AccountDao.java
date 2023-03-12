@@ -11,9 +11,9 @@ import java.util.List;
 public interface AccountDao {
 
     BigDecimal getBalance(int userId);
-    BigDecimal addToBalance(BigDecimal amountToAdd, int id);
+    void subtractFromAccountBalance(int fromAccount, BigDecimal amountToSubtract);
     Account update(Account account,int id);
-    BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id);
+            void addToAccountBalance(int toAccount, BigDecimal amountToAdd);
     Account getAccount();
     Account getAccountByUserId(int userId);
     Account getAccountByAccountId(int accountId);
