@@ -10,6 +10,7 @@ import com.techelevator.tenmo.services.TransferService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,7 @@ public class App {
     private AuthenticatedUser currentUser;
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    private final TransferService transferService = new TransferService(API_BASE_URL,currentUser);
+    private final TransferService transferService = new TransferService(API_BASE_URL, currentUser);
     private RestTemplate restTemplate;
 
     public static void main(String[] args) {
@@ -35,6 +36,7 @@ public class App {
             mainMenu();
         }
     }
+
     private void loginMenu() {
         int menuSelection = -1;
         while (menuSelection != 0 && currentUser == null) {
@@ -99,11 +101,12 @@ public class App {
     }
 
     private void viewTransferHistory() {
-      List<Transfer> transfers = transferService.listAllTransfers(currentUser.getToken());
-      consoleService.printTransfers(transfers);
+        List<Transfer> transfers = transferService.listAllTransfers(currentUser.getToken());
+        consoleService.printTransfers(transfers);
 
 
     }
+
     private void viewPendingRequests() {
         // TODO Auto-generated method stub
 
@@ -111,13 +114,26 @@ public class App {
 
     private void sendBucks() {
 
+        User[] userList = transferService.listUsers();
+        for (User user : userList) {
+            System.out.println(user);
+        }
+
+        int selection = consoleService.promptForInt("Enter transfer ID to view details (0 to cancel): ");
+        if (selection == 0) {
+            mainMenu();
+        }
+        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter a decimal amount to send: ");
+        Transfer transfer = new Transfer();
+        transfer.setAccountFrom(currentUser.getUser().getId());
+        transfer.setAccountTo();
+        transfer.setAmount(transferAmount);
     }
 
     private void requestBucks() {
         // TODO Auto-generated method stub
 
     }
-
 
 
 }

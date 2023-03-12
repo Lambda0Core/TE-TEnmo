@@ -40,22 +40,6 @@ public class TransferService {
         }
         return userBalance;
     }
-    public Transfer getTransfer(String userToken) {
-        Transfer transfer = null;
-        try {
-            ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "transfer", HttpMethod.GET, makeAuthEntity(userToken), Transfer.class);
-            transfer = response.getBody();
-        } catch (RestClientResponseException | ResourceAccessException e) {
-            BasicLogger.log(e.getMessage());
-        }
-        return transfer;
-    }
-    public BigDecimal addToBalance(BigDecimal amountToAdd, int id) {
-        return null;
-    }
-    public BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id) {
-        return null;
-    }
     public List<Transfer> listAllTransfers(String userToken) {
         Transfer[] transfers = null;
         try {
@@ -67,6 +51,36 @@ public class TransferService {
         }
         return Arrays.asList(transfers);
     }
+    public Transfer getTransfer(String userToken) {
+        Transfer transfer = null;
+        try {
+            ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "transfer", HttpMethod.GET, makeAuthEntity(userToken), Transfer.class);
+            transfer = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfer;
+    }
+
+    public Transfer updatedBalances(String userToken){
+        Transfer transfer = null;
+        try{
+            ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "transfer", HttpMethod.GET, makeAuthEntity(userToken), Transfer.class);
+            transfer = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfer;
+
+    }
+
+    public BigDecimal addToBalance(BigDecimal amountToAdd, int id) {
+        return null;
+    }
+    public BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id) {
+        return null;
+    }
+
 
     private HttpEntity<Void> makeAuthEntity(String token) {
         HttpHeaders headers = new HttpHeaders();
